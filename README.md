@@ -5,7 +5,7 @@ Raspberry Pi Debug Probe.
 
 Simply choose "Run > Start Debugging". It will build the source, clear the
 flash, push the ut2 binary to the pico, and boot it. Output will appear in
-the debug console.
+the debug console, including any panic messages that might halt your program.
 
 ### Building for production
 
