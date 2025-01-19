@@ -17,6 +17,11 @@ use rand_core::RngCore;
 use static_cell::StaticCell;
 use {defmt_rtt as _, panic_probe as _};
 
+use crate::tasks::networking::{net_task, wifi_task};
+
+// import the tasks module (submodule of src)
+mod tasks;
+
 bind_interrupts!(struct Irqs {
     PIO0_IRQ_0 => PioInterruptHandler<PIO0>;
 });
@@ -27,16 +32,6 @@ bind_interrupts!(struct Irqs {
 //     // before we hit main to avoid deadlocks when using a debugger
 //     embassy_rp::pac::SIO.spinlock(31).write_value(1);
 // }
-
-#[embassy_executor::task]
-async fn wifi_task(runner: cyw43::Runner<'static, Output<'static>, PioSpi<'static, PIO0, 0, DMA_CH0>>) -> ! {
-    runner.run().await
-}
-
-#[embassy_executor::task]
-async fn net_task(mut runner: embassy_net::Runner<'static, cyw43::NetDriver<'static>>) -> ! {
-    runner.run().await
-}
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
