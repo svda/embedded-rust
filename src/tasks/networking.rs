@@ -1,14 +1,14 @@
 use core::str::FromStr;
-use cyw43_pio::PioSpi;
+use cyw43::JoinOptions;
+use cyw43_pio::{PioSpi, DEFAULT_CLOCK_DIVIDER};
 use defmt::*;
 use embassy_executor::Spawner;
 use embassy_net::{Config as NetConfig, DhcpConfig, StackResources};
 use embassy_rp::{
     clocks::RoscRng,
     gpio::{Level, Output},
-    peripherals::{self, DMA_CH0, PIO0},
+    peripherals::{DMA_CH0, PIO0},
     pio::Pio,
-    rtc::{DateTime, Rtc},
 };
 use embassy_time::{Duration, Timer};
 use rand_core::RngCore;
@@ -48,6 +48,7 @@ pub async fn networking(spawner: Spawner, r: WifiResources) -> ! {
     let spi = PioSpi::new(
         &mut pio.common,
         pio.sm0,
+        DEFAULT_CLOCK_DIVIDER,
         pio.irq0,
         cs,
         r.dio_pin,
@@ -83,10 +84,11 @@ pub async fn networking(spawner: Spawner, r: WifiResources) -> ! {
     let (stack, runner) = embassy_net::new(net_device, net_config, RESOURCES.init(StackResources::new()), seed);
 
     unwrap!(spawner.spawn(net_task(runner)));
+
     
     loop {
         match control
-            .join_wpa2(WIFI_NETWORK, WIFI_PASSWORD)
+            .join(WIFI_NETWORK, JoinOptions::new(WIFI_PASSWORD.as_bytes()))
             .await
         {
             Ok(_) => break,
