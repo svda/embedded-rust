@@ -37,6 +37,7 @@ static_cell = { version = "2" }
 heapless = "0.8.0"
 mcp9808 = "0.4.0"
 rand_core = "0.6.4"
+assign-resources = "0.4.1"
 
 # cargo build/run
 [profile.dev]
