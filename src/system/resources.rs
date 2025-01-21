@@ -16,6 +16,11 @@ assign_resources! {
         sda: PIN_12,
         scl: PIN_13,
     },
+    display: DisplayResources {
+        i2c: I2C1,
+        sda: PIN_6,
+        scl: PIN_7,
+    },
     wifi: WifiResources {
         pwr_pin: PIN_23,
         cs_pin: PIN_25,

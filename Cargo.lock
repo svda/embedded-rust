@@ -533,6 +533,7 @@ dependencies = [
  "embassy-time",
  "ens160-aq",
  "heapless",
+ "lcd_1602_i2c",
  "log",
  "mcp9808",
  "panic-probe",
@@ -974,6 +975,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d3c48237b9604c5a4702de6b824e02006c3214327564636aef27c1028a8fa0ed"
 dependencies = [
  "regex",
+]
+
+[[package]]
+name = "lcd_1602_i2c"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d95f3d4e60311d71b8f4e4f70dc98b119ca6f48a14c523ab8c322c6a59286288"
+dependencies = [
+ "embedded-hal 0.2.7",
 ]
 
 [[package]]

@@ -11,7 +11,7 @@ use heapless::String;
 use crate::system::resources::{AirQualityResources, Irqs};
 
 #[embassy_executor::task]
-pub async fn air_quality(spawner: Spawner, r: AirQualityResources) -> ! {
+pub async fn air_quality(_spawner: Spawner, r: AirQualityResources) -> ! {
     info!("Air quality task started");
 
     let mut config = Config::default();
