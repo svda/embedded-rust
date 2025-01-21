@@ -37,7 +37,7 @@ heapless = "0.8.0"
 mcp9808 = "0.4.0"
 rand_core = "0.6.4"
 assign-resources = "0.4.1"
-# ens160 = { version = "0.6.1", features = ["async"] }
+ens160-aq = { version = "0.2.10", features = ["async"] }
 
 # cargo build/run
 [profile.dev]

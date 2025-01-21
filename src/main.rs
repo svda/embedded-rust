@@ -10,6 +10,7 @@ use static_cell::StaticCell;
 use {defmt_rtt as _, panic_probe as _};
 
 use crate::system::resources::*;
+use crate::tasks::air_quality::air_quality;
 use crate::tasks::networking::networking;
 use crate::tasks::orchestrator::orchestrator;
 
@@ -62,6 +63,11 @@ async fn main(_spawner: Spawner) {
 
     let executor = EXECUTOR_LOW.init(Executor::new());
     executor.run(|spawner| {
+        if task_config.air_quality {
+            spawner
+                .spawn(air_quality(spawner, r.air_quality))
+                .unwrap();
+        }
         if task_config.networking {
             spawner
                 .spawn(networking(spawner, r.wifi))
@@ -76,6 +82,7 @@ async fn main(_spawner: Spawner) {
 /// Also, we can disable tasks that are not needed for the current development stage and also test tasks in isolation.
 /// For a production build we will need all tasks enabled
 pub struct TaskConfig {
+    pub air_quality: bool,
     pub networking: bool,
     pub orchestrator: bool,
 }
@@ -83,6 +90,7 @@ pub struct TaskConfig {
 impl Default for TaskConfig {
     fn default() -> Self {
         TaskConfig {
+            air_quality: true,
             networking: true,
             orchestrator: true,
         }

@@ -118,7 +118,6 @@ pub async fn networking(spawner: Spawner, r: WifiResources) -> ! {
     // // And now we can use it!
 
     loop {
-        info!("Blink led");
         control.gpio_set(0, false).await;
         Timer::after(Duration::from_secs(3)).await;
         control.gpio_set(0, true).await;
